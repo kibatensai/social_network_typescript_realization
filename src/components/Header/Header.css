@@ -1,0 +1,10 @@
+.app_header {
+    grid-area: h;
+    background-color: salmon;
+  
+  }
+  
+#header_img {
+    width: 100%;
+    height: 100%;
+  }
