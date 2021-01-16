@@ -10,6 +10,7 @@ import Settings from './components/Settings/Settings'
 import { BrowserRouter, Route } from 'react-router-dom'
 import store from './redux/redux-store';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
+import UsersContainer from './components/Users/UsersContainer';
 
 const App: FC<any> = ( props ) => {
 
@@ -24,6 +25,9 @@ const App: FC<any> = ( props ) => {
           </Route>
           <Route path='/profile'>
             <Profile store={store}/>  
+          </Route>
+          <Route path='/users'>
+            <UsersContainer store={store} />
           </Route>
           <Route path='/news' component={News} />
           <Route path='/music' component={Music} />
