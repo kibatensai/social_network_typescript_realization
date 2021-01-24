@@ -21,7 +21,7 @@ const App = () => {
           <Route path='/dialogs'>
             <DialogsContainer />
           </Route>
-          <Route path='/profile'>
+          <Route path='/profile/:userId?'>
             <ProfileContainer />  
           </Route>
           <Route path='/users'>
