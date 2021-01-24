@@ -11,6 +11,9 @@ let reducers = combineReducers({
     usersPage: usersReducer
 })
 
-let store = createStore(reducers)
+type reducersType = typeof reducers
+export type AppStateType = ReturnType<reducersType>
+
+let store: AppStateType = createStore(reducers)
 
 export default store

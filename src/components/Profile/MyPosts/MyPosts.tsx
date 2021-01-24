@@ -1,20 +1,21 @@
 import React from 'react'
 import './MyPosts.css'
+import { MyPostsConnectorPropsType } from './MyPostsContainer'
 import Post from './Post/Post'
 
-const MyPosts = (props) => {
+const MyPosts = ({postData, newPostText, addPost, updateNewPostText}: MyPostsConnectorPropsType) => {
   let postsElements =
-      props.postData.map( p => <Post key={p.id} message={p.postmsg} likeCount={p.likeCount} />)
+      postData.map( p => <Post key={p.id} postmsg={p.postmsg} likesCount={p.likesCount} />)
 
-  let newPostElement = React.createRef()
+  let newPostElement = React.createRef<HTMLTextAreaElement>()
 
   let onAddPost = () => {
-    props.addPost()
+    addPost()
   }
 
   const onPostChange = () => {
-    let text = newPostElement.current.value
-    props.updateNewPostText(text)
+    let text = newPostElement.current!.value
+    updateNewPostText(text)
   }
 
   return (
@@ -25,7 +26,7 @@ const MyPosts = (props) => {
             <div>
             <textarea onChange={ onPostChange } 
                       ref={newPostElement}
-                      value={props.newPostText}></textarea>
+                      value={newPostText}></textarea>
             </div>
             <div>
             <button onClick={ onAddPost }>Add post</button>

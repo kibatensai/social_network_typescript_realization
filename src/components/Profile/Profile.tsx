@@ -3,11 +3,11 @@ import MyPostsContainer from './MyPosts/MyPostsContainer'
 import './Profile.css'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 
-const Profile = ( { store } ) => {
+const Profile = () => {
   return (
     <div>
       <ProfileInfo />
-      <MyPostsContainer store={store} />
+      <MyPostsContainer  />
     </div>
 
   )

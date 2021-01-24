@@ -1,25 +1,26 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import './Dialogs.css'
 import DialogItem from './DialogItem/DialogItem'
 import Message from './Message/Message'
+import { DialogsConnectorPropsType } from './DialogsContainer'
 
-const Dialogs = (props) => {
 
-    let state = props.dialogsPage
+
+const Dialogs = ({ dialogsPage, sendMessage, updateNewMessageBody }: DialogsConnectorPropsType) => {
 
     let dialogElements =
-        state.dialogData.map(i => <DialogItem key={i.id} name={i.name} id={i.id}/>)
+        dialogsPage.dialogData.map(i => <DialogItem key={i.id} name={i.name} id={i.id}/>)
     let messagesElements =
-        state.messageData.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
-    let newMessageBody = state.newMessageBody
+        dialogsPage.messageData.map(m => <Message key={m.id} message={m.message} id={m.id}/>)
+    let newMessageBody = dialogsPage.newMessageBody
 
     let onSendMessageClick = () => {
-        props.sendMessage()
+        sendMessage()
     }
 
-    let onNewMessageChange = (e) => {
+    let onNewMessageChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let body = e.target.value
-        props.updateNewMessageBody(body)
+        updateNewMessageBody(body)
     }
 
     return (
