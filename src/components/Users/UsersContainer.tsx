@@ -5,7 +5,7 @@ import { Users } from './Users'
 import axios from 'axios'
 import { PhotosType, UserType } from '../../types/types'
 import { AppStateType } from '../../redux/redux-store'
-import preloader from '../../assets/images/snpreloader.svg'
+import { Preloader } from '../common/Preloader/Preloader'
 
 type UsersContainerPropsType = {
     currentPage: number
@@ -48,7 +48,7 @@ class UsersContainer extends Component<UsersContainerPropsType> {
 
     render() { 
         return  <>
-                { this.props.isFetching ? <img src={preloader} /> : null}
+                { this.props.isFetching ? <Preloader /> : null}
                 <Users totalUsersCount={this.props.totalUsersCount}
                       pageSize={this.props.pageSize}
                       currentPage={this.props.currentPage}
