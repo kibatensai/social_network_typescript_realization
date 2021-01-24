@@ -2,6 +2,7 @@ import React from 'react'
 import style from './Users.module.css'
 import userPhoto from '../../assets/images/usermockpng.png'
 import { PhotosType, UserType } from '../../types/types'
+import { NavLink } from 'react-router-dom'
 
 type UsersComponentType = {
     currentPage: number
@@ -34,7 +35,9 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageCha
                 users.map( u => <div key={u.id}>
                     <span>
                         <div>
+                            <NavLink to={`/profile/` + u.id}>
                             <img src={ u.photos.small !== null ? u.photos.small : userPhoto } alt='userpic' className={style.userPhoto}/>
+                            </NavLink>
                         </div>
                         <div>
                             { u.followed 

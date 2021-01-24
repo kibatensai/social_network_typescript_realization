@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import { follow, setUsers, setCurrentPage, setUsersTotalCount, toggleIsFetching } from '../../redux/users-reducer'
 import { Users } from './Users'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { PhotosType, UserType } from '../../types/types'
 import { AppStateType } from '../../redux/redux-store'
 import { Preloader } from '../common/Preloader/Preloader'
@@ -41,7 +41,7 @@ class UsersContainer extends Component<UsersContainerPropsType> {
         this.props.setCurrentPage(pageNumber)
         this.props.toggleIsFetching(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pagesCount}`)
-        .then((response: any) => {
+        .then((response: AxiosResponse<any>) => {
             this.props.toggleIsFetching(false)
             this.props.setUsers(response.data.items)
         })

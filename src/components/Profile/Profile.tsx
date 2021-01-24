@@ -3,10 +3,14 @@ import MyPostsContainer from './MyPosts/MyPostsContainer'
 import './Profile.css'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 
-const Profile = () => {
+type ProfilePropsType = {
+  profile: any
+}
+
+const Profile = ({ profile }: ProfilePropsType) => {
   return (
     <div>
-      <ProfileInfo />
+      <ProfileInfo profile={profile}/>
       <MyPostsContainer  />
     </div>
 
