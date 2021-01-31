@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from 'axios'
 import { PhotosType, UserType } from '../../types/types'
 import { AppStateType } from '../../redux/redux-store'
 import { Preloader } from '../common/Preloader/Preloader'
+import { usersAPI } from '../../api/api'
 
 type UsersContainerPropsType = {
     currentPage: number
@@ -30,25 +31,19 @@ class UsersContainer extends Component<UsersContainerPropsType> {
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pagesCount}`, {
-            withCredentials: true
-        })
-        .then((response: any) => {
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then((data: any) => {
             this.props.toggleIsFetching(false)
-            this.props.setUsers(response.data.items)
-            this.props.setUsersTotalCount(response.data.totalCount)
+            this.props.setUsers(data.items)
+            this.props.setUsersTotalCount(data.totalCount)
         })
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setCurrentPage(pageNumber)
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pagesCount}`, {
-            withCredentials: true
-        })
-        .then((response: AxiosResponse<any>) => {
+        usersAPI.getUsers(pageNumber, this.props.pageSize).then((data: any) => {
             this.props.toggleIsFetching(false)
-            this.props.setUsers(response.data.items)
+            this.props.setUsers(data.items)
         })
     }
 
