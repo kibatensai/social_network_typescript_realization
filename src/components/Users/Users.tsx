@@ -3,6 +3,7 @@ import style from './Users.module.css'
 import userPhoto from '../../assets/images/usermockpng.png'
 import { PhotosType, UserType } from '../../types/types'
 import { NavLink } from 'react-router-dom'
+import axios from 'axios'
 
 type UsersComponentType = {
     currentPage: number
@@ -11,10 +12,11 @@ type UsersComponentType = {
     users: Array<UserType>
     onPageChanged: (page: number) => void
     onFollow: (userId: number) => void
+    onUnfollow: (userId: number) => void
 }
 
 
-export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageChanged, onFollow}: UsersComponentType) => {
+export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageChanged, onFollow, onUnfollow}: UsersComponentType) => {
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
         
@@ -22,6 +24,30 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageCha
     for(let i=1; i <= pagesCount; i++) {
         pages.push(i)
     }
+
+    const follow = (id: number) => {
+            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {}, {
+                withCredentials: true,
+                headers: {'API-KEY' : '5675685f-9cd0-43c9-b668-1f134f354acb'}
+            })
+            .then((response: any) => {
+                if (response.data.resultCode === 0) {
+                onFollow(id)
+                }
+            })
+    }
+
+    const unfollow = (id: number) => {
+            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {
+                withCredentials: true,
+                headers: {'API-KEY' : '5675685f-9cd0-43c9-b668-1f134f354acb'}
+            })
+            .then((response: any) => {
+                if (response.data.resultCode === 0) {
+                onUnfollow(id)
+                }
+            })
+}
 
     return (
             <div>
@@ -41,8 +67,8 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageCha
                         </div>
                         <div>
                             { u.followed 
-                                        ? <button onClick={ () => { onFollow(u.id)}}>Unfollowed</button> 
-                                        : <button onClick={ () => { onFollow(u.id)}}>Followed</button>}
+                                        ? <button onClick={ () => { unfollow(u.id)}}>Unfollow</button> 
+                                        : <button onClick={ () => { follow(u.id) }}>Follow</button>}
                         </div>
                     </span>
                     <span>

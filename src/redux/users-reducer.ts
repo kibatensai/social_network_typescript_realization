@@ -1,6 +1,7 @@
 import { UserType } from "../types/types"
 
 const FOLLOW = 'FOLLOW'
+const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
@@ -17,7 +18,14 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 
-const usersReducer = (state = initialState, action: any): InitialStateType => {
+type ActionType = FollowACType
+                | SetUserACType
+                | SetCurrentPageACType
+                | SetUsersTotalCountACType
+                | toggleIsFetchingACType
+                | UnfollowACType
+
+const usersReducer = (state = initialState, action: ActionType): InitialStateType => {
     
     switch(action.type) {
         case FOLLOW:
@@ -25,7 +33,17 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
                 ...state,
                 users: state.users.map(u => {
                     if(u.id === action.userId) {
-                        return { ...u, followed: !u.followed }
+                        return { ...u, followed: true }
+                    }
+                    return u
+                })
+            }
+        case UNFOLLOW:
+            return {
+                ...state,
+                users: state.users.map(u => {
+                    if(u.id === action.userId) {
+                        return { ...u, followed: false }
                     }
                     return u
                 })
@@ -47,7 +65,13 @@ type FollowACType = {
     type: typeof FOLLOW,
     userId: number
 }
-export const follow = (userId: number): FollowACType => ({ type: FOLLOW, userId })
+export const follow = (userId: number): FollowACType => ({ type: FOLLOW, userId})
+
+type UnfollowACType = {
+    type: typeof UNFOLLOW,
+    userId: number
+}
+export const unfollow = (userId: number): UnfollowACType => ({ type: UNFOLLOW, userId})
 
 type SetUserACType = {
     type: typeof SET_USERS,
