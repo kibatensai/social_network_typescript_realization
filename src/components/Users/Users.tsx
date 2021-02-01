@@ -10,13 +10,15 @@ type UsersComponentType = {
     totalUsersCount: number
     pageSize: number
     users: Array<UserType>
+    isFollowingInProgress: Array<number>
     onPageChanged: (page: number) => void
     onFollow: (userId: number) => void
     onUnfollow: (userId: number) => void
+    toggleFollowingProgress: (isFetching: boolean, userId: number) => void
 }
 
 
-export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageChanged, onFollow, onUnfollow}: UsersComponentType) => {
+export const Users = ({ currentPage, totalUsersCount, pageSize, users, isFollowingInProgress, onPageChanged, onFollow, onUnfollow, toggleFollowingProgress}: UsersComponentType) => {
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
         
@@ -26,6 +28,7 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageCha
     }
 
     const follow = (id: number) => {
+        toggleFollowingProgress(true, id)
             axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {}, {
                 withCredentials: true,
                 headers: {'API-KEY' : '5675685f-9cd0-43c9-b668-1f134f354acb'}
@@ -34,10 +37,12 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageCha
                 if (response.data.resultCode === 0) {
                 onFollow(id)
                 }
+                toggleFollowingProgress(false, id)
             })
     }
 
     const unfollow = (id: number) => {
+            toggleFollowingProgress(true, id)
             axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {
                 withCredentials: true,
                 headers: {'API-KEY' : '5675685f-9cd0-43c9-b668-1f134f354acb'}
@@ -46,6 +51,7 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageCha
                 if (response.data.resultCode === 0) {
                 onUnfollow(id)
                 }
+                toggleFollowingProgress(false, id)
             })
 }
 
@@ -67,8 +73,8 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, onPageCha
                         </div>
                         <div>
                             { u.followed 
-                                        ? <button onClick={ () => { unfollow(u.id)}}>Unfollow</button> 
-                                        : <button onClick={ () => { follow(u.id) }}>Follow</button>}
+                                        ? <button disabled={isFollowingInProgress.some(id => id === u.id)} onClick={ () => { unfollow(u.id)}}>Unfollow</button> 
+                                        : <button disabled={isFollowingInProgress.some(id => id === u.id)} onClick={ () => { follow(u.id) }}>Follow</button>}
                         </div>
                     </span>
                     <span>
