@@ -5,12 +5,14 @@ import ProfileInfo from './ProfileInfo/ProfileInfo'
 
 type ProfilePropsType = {
   profile: any
+  status: string
+  updateStatus: (status: string) => void
 }
 
-const Profile = ({ profile }: ProfilePropsType) => {
+const Profile = (props: ProfilePropsType) => {
   return (
     <div>
-      <ProfileInfo profile={profile}/>
+      <ProfileInfo {...props}/>
       <MyPostsContainer  />
     </div>
 
