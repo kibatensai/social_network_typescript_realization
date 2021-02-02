@@ -4,6 +4,8 @@ import { sendMessageCreator, updateNewMessageBodyCreator } from '../../redux/dia
 import Dialogs from './Dialogs'
 import { connect, ConnectedProps } from 'react-redux'
 import { AppStateType } from '../../redux/redux-store'
+import { withAuthRedirect } from '../../hoc/WithAuthRedirect'
+import { compose } from 'redux'
 
 
 
@@ -24,14 +26,14 @@ let mapDispatchToProps = (dispatch: Dispatch<any>) => {
     }
 }
 
+export type DialogsConnectorPropsType = ConnectedProps<typeof connector>
+
 const connector = connect(
     mapStateToProps,
     mapDispatchToProps
 )
 
-export type DialogsConnectorPropsType = ConnectedProps<typeof connector>
-
-
-const DialogsContainer = connector(Dialogs)
-
-export default DialogsContainer
+export default compose(
+    connector,
+    withAuthRedirect
+)(Dialogs)
