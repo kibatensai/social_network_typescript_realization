@@ -1,9 +1,8 @@
 import React from 'react'
 import style from './Users.module.css'
 import userPhoto from '../../assets/images/usermockpng.png'
-import { PhotosType, UserType } from '../../types/types'
+import { UserType } from '../../types/types'
 import { NavLink } from 'react-router-dom'
-import axios from 'axios'
 
 type UsersComponentType = {
     currentPage: number
@@ -12,13 +11,12 @@ type UsersComponentType = {
     users: Array<UserType>
     isFollowingInProgress: Array<number>
     onPageChanged: (page: number) => void
-    onFollow: (userId: number) => void
-    onUnfollow: (userId: number) => void
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => void
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
 }
 
 
-export const Users = ({ currentPage, totalUsersCount, pageSize, users, isFollowingInProgress, onPageChanged, onFollow, onUnfollow, toggleFollowingProgress}: UsersComponentType) => {
+export const Users = ({ currentPage, totalUsersCount, pageSize, users, isFollowingInProgress, onPageChanged, follow, unfollow }: UsersComponentType) => {
 
     let pagesCount = Math.ceil(totalUsersCount / pageSize)
         
@@ -26,34 +24,6 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, isFollowi
     for(let i=1; i <= pagesCount; i++) {
         pages.push(i)
     }
-
-    const follow = (id: number) => {
-        toggleFollowingProgress(true, id)
-            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {}, {
-                withCredentials: true,
-                headers: {'API-KEY' : '5675685f-9cd0-43c9-b668-1f134f354acb'}
-            })
-            .then((response: any) => {
-                if (response.data.resultCode === 0) {
-                onFollow(id)
-                }
-                toggleFollowingProgress(false, id)
-            })
-    }
-
-    const unfollow = (id: number) => {
-            toggleFollowingProgress(true, id)
-            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {
-                withCredentials: true,
-                headers: {'API-KEY' : '5675685f-9cd0-43c9-b668-1f134f354acb'}
-            })
-            .then((response: any) => {
-                if (response.data.resultCode === 0) {
-                onUnfollow(id)
-                }
-                toggleFollowingProgress(false, id)
-            })
-}
 
     return (
             <div>

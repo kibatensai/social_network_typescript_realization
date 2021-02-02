@@ -1,3 +1,5 @@
+import { Dispatch } from 'react';
+import { usersAPI } from '../api/api';
 import { ProfileType } from './../types/types';
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
@@ -8,7 +10,6 @@ type PostDataType = {
     postmsg: string
     likesCount: number
 }
-
 
 let initialState = {
     postData: [
@@ -72,5 +73,17 @@ type SetUserProfileActionCreatorType = {
 export const addPostActionCreator = (): AddPostActionCreatorType => ( {type: ADD_POST} )
 export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionCreatorType => ( {type: UPDATE_NEW_POST_TEXT, newText: text} )
 export const setUserProfile = (profile: any): SetUserProfileActionCreatorType => ( { type: SET_USER_PROFILE, profile } )
+
+
+// ---------- Thunks: ----------
+
+export const getUserProfile = (userId: number) => {
+    return (dispatch: Dispatch<any>) => {
+        usersAPI.getProfile(userId)
+      .then((response: any) => {
+          dispatch(setUserProfile(response.data))
+  })
+    }
+}
 
 export default profileReducer

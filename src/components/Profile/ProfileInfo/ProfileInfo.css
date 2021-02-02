@@ -1,3 +1,9 @@
 .description_block {
     padding: 10px;
 }
+
+.description_block img{
+    width: 100px;
+    height: 100px;
+
+}
