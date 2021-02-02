@@ -1,6 +1,7 @@
 import { ProfileType } from './../types/types';
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
+const SET_USER_PROFILE = 'SET-USER-PROFILE'
 
 type PostDataType = {
     id: number
@@ -42,6 +43,12 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
                 newPostText: action.newText
             }
         }
+        case SET_USER_PROFILE: {
+            return {
+                ...state,
+                profile: action.profile
+            }
+        }
         default:
             return state 
     }
@@ -57,7 +64,13 @@ type UpdateNewPostTextActionCreatorType = {
     newText: string
 }
 
-export const addPostActionCreator = (): AddPostActionCreatorType => ({type: ADD_POST})
-export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionCreatorType => ({type: UPDATE_NEW_POST_TEXT, newText: text})
+type SetUserProfileActionCreatorType = {
+    type: typeof SET_USER_PROFILE
+    profile: any
+}
+
+export const addPostActionCreator = (): AddPostActionCreatorType => ( {type: ADD_POST} )
+export const updateNewPostTextActionCreator = (text: string): UpdateNewPostTextActionCreatorType => ( {type: UPDATE_NEW_POST_TEXT, newText: text} )
+export const setUserProfile = (profile: any): SetUserProfileActionCreatorType => ( { type: SET_USER_PROFILE, profile } )
 
 export default profileReducer
