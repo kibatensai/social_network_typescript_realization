@@ -1,13 +1,14 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Redirect } from 'react-router-dom'
 import './Header.css'
 
 const Header = (props: any) => {
    return (<header className="app_header">
       header
       <div className='loginBlock'>
-         {props.isAuth ? props.login
-            : <NavLink to={'/login'}>Login</NavLink> }
+         {props.isAuth 
+            ? <div>{props.login} - <button onClick={props.logout}>Log Out</button></div>
+            : <Redirect to={'/login'}>Login</Redirect> }
       </div>
    </header>
    )

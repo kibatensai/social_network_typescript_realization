@@ -1,37 +1,24 @@
 import React from 'react'
+import { Field, reduxForm } from 'redux-form'
+import { maxLengthCreator, required } from '../../../utils/validators/validators'
+import { Element } from '../../common/FormsControls/FormsControls'
 import './MyPosts.css'
 import { MyPostsConnectorPropsType } from './MyPostsContainer'
 import Post from './Post/Post'
 
-const MyPosts = ({postData, newPostText, addPost, updateNewPostText}: MyPostsConnectorPropsType) => {
+const MyPosts = ({postData, addPost}: MyPostsConnectorPropsType) => {
   let postsElements =
       postData.map( p => <Post key={p.id} postmsg={p.postmsg} likesCount={p.likesCount} />)
 
-  let newPostElement = React.createRef<HTMLTextAreaElement>()
-
-  let onAddPost = () => {
-    addPost()
-  }
-
-  const onPostChange = () => {
-    let text = newPostElement.current!.value
-    updateNewPostText(text)
+  let onAddPost = (values: any) => {
+    addPost(values.newPostText)
   }
 
   return (
     <div className='posts_block'>
       <div>
         <h2>My post</h2>
-          <div>
-            <div>
-            <textarea onChange={ onPostChange } 
-                      ref={newPostElement}
-                      value={newPostText}></textarea>
-            </div>
-            <div>
-            <button onClick={ onAddPost }>Add post</button>
-            </div> 
-        </div>
+          <AddNewPostFormRedux onSubmit={onAddPost} />
       </div>
       <div className='posts'>
         {postsElements}
@@ -39,5 +26,20 @@ const MyPosts = ({postData, newPostText, addPost, updateNewPostText}: MyPostsCon
     </div>
   )
 }
+
+const maxLength10 =  maxLengthCreator(10)
+const Textarea = Element('textarea')
+
+const AddNewPostForm = (props: any) => {
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <Field component={Textarea} name={'newPostText'}
+             validate={[required, maxLength10]}/>
+      <button>Add post</button>
+    </form>
+  )
+}
+
+const AddNewPostFormRedux = reduxForm({form: 'newPostForm'})(AddNewPostForm)
 
 export default MyPosts
