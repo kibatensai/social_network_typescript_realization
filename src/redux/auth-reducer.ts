@@ -2,7 +2,7 @@ import { authAPI } from './../api/api';
 import { Dispatch } from "redux"
 import { stopSubmit } from 'redux-form'
 
-const SET_USER_DATA = 'SET-USER-DATA'
+const SET_USER_DATA = 'social-network/auth/SET-USER-DATA'
 
 
 let initialState = {
@@ -42,36 +42,35 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
 
 // ---------- Thunks: ----------
 
-export const getAuthUserData = () => (dispatch: Dispatch<any>) => {
-        return authAPI.me()
-                .then((response: any) => {
-                    if(response.data.resultCode === 0) {
-                        let { id, email, login } = response.data.data
-                        dispatch(setAuthUserData(id, email, login, true))
-           }
-        })
+export const getAuthUserData = () => async (dispatch: Dispatch<any>) => {
+        let response = await authAPI.me()
+                
+        if(response.data.resultCode === 0) {
+            let { id, email, login } = response.data.data
+            dispatch(setAuthUserData(id, email, login, true))
+        }
 }
 
 
-export const login = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
-        authAPI.login(email, password, rememberMe)
-        .then((response: any) => {
+export const login = (email: string, password: string, rememberMe: boolean) => async (dispatch: any) => {
+        let response = await authAPI.login(email, password, rememberMe)
+    
            if(response.data.resultCode === 0) {
               dispatch(getAuthUserData())
            } else {
                const message = response.data.message.length > 0 ? response.data.message[0] : 'Some error occured'
                dispatch(stopSubmit('login', {_error: message}))
            }
-        })
+       
 }
 
-export const logout = () => (dispatch: Dispatch<any>) => {
-    authAPI.logout()
-    .then((response: any) => {
+export const logout = () => async (dispatch: Dispatch<any>) => {
+    let response = await authAPI.logout()
+    
        if(response.data.resultCode === 0) {
           dispatch(setAuthUserData(null, null, null, false))
        }
-    })
+    
 }
 
 export default authReducer

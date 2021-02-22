@@ -2,12 +2,3 @@
     widows: 100px;
     height: 100px;
 }
-
-.otherPage {
-    cursor: pointer;
-}
-
-.selectedPage {
-    font-weight: bold;
-    cursor:pointer;
-}
