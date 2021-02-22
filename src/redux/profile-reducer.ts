@@ -4,8 +4,9 @@ import { ProfileType } from './../types/types';
 const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET-USER-PROFILE'
 const SET_STATUS = 'SET-STATUS'
+const DELETE_POST = 'DELETE-POST'
 
-type PostDataType = {
+export type PostDataType = {
     id: number
     postmsg: string
     likesCount: number
@@ -48,6 +49,11 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
                 ...state,
                 status: action.status
             }
+        case DELETE_POST:
+            return {
+                ...state,
+                postData: state.postData.filter(el => el.id !== action.postId)
+            }
         default:
             return state 
     }
@@ -69,10 +75,15 @@ type SetStatusActionCreatorType = {
     status: string
 }
 
+type DeletePostActionCreatorType = {
+    type: typeof DELETE_POST
+    postId: number
+}
 
 export const addPostActionCreator = (newPostText: string): AddPostActionCreatorType => ( {type: ADD_POST, newPostText} )
 export const setUserProfile = (profile: any): SetUserProfileActionCreatorType => ( { type: SET_USER_PROFILE, profile } )
 export const setStatus = (status: string): SetStatusActionCreatorType => ( { type: SET_STATUS, status } )
+export const deletePost = (postId: number): DeletePostActionCreatorType => ( { type: DELETE_POST, postId } )
 
 
 // ---------- Thunks: ----------
