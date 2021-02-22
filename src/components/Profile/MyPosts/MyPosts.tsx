@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { maxLengthCreator, required } from '../../../utils/validators/validators'
 import { Element } from '../../common/FormsControls/FormsControls'
@@ -6,7 +6,7 @@ import './MyPosts.css'
 import { MyPostsConnectorPropsType } from './MyPostsContainer'
 import Post from './Post/Post'
 
-const MyPosts = ({postData, addPost}: MyPostsConnectorPropsType) => {
+const MyPosts = memo(({postData, addPost}: MyPostsConnectorPropsType) => {
   let postsElements =
       postData.map( p => <Post key={p.id} postmsg={p.postmsg} likesCount={p.likesCount} />)
 
@@ -25,7 +25,7 @@ const MyPosts = ({postData, addPost}: MyPostsConnectorPropsType) => {
       </div>
     </div>
   )
-}
+})
 
 const maxLength10 =  maxLengthCreator(10)
 const Textarea = Element('textarea')
