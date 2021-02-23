@@ -14,13 +14,20 @@ type ProfileContainerType = {
     updateStatus: (status: string) => void
     profile: any
     status: string
+    authorizedUserId: any
 } & RouteComponentProps<any>
 
 class ProfileContainer extends Component<ProfileContainerType> {
 
   componentDidMount() {
     let userId = this.props.match.params.userId
-    if(!userId) {userId = 14393} 
+    if(!userId) {
+      userId = this.props.authorizedUserId
+      if(!userId) {
+        this.props.history.push('/login')
+      }
+    
+    } 
     this.props.getUserProfile(userId)
     this.props.getStatus(userId)
   
@@ -38,7 +45,10 @@ class ProfileContainer extends Component<ProfileContainerType> {
 
 const mapStateToProps = (state: AppStateType) => ({
   profile: state.profilePage.profile,
-  status: state.profilePage.status
+  status: state.profilePage.status,
+  authorizedUserId: state.auth.userId,
+  isAuth: state.auth.isAuth
+
 })
 
 export default compose(

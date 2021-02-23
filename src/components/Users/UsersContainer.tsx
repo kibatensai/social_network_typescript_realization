@@ -6,7 +6,6 @@ import { PhotosType, UserType } from '../../types/types'
 import { AppStateType } from '../../redux/redux-store'
 import { Preloader } from '../common/Preloader/Preloader'
 import { compose } from 'redux'
-import { withAuthRedirect } from '../../hoc/WithAuthRedirect'
 
 type UsersContainerPropsType = {
     currentPage: number
@@ -68,6 +67,5 @@ const mapStateToProps = (state: AppStateType) => {
 
 
 export default compose(
-    withAuthRedirect,
     connect(mapStateToProps, {followSuccess, unfollowSuccess, setCurrentPage, toggleFollowingProgress, getUsers, follow, unfollow})
 )(UsersContainer)
