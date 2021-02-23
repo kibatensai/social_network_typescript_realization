@@ -22,7 +22,7 @@ export const Users = ({ currentPage, totalUsersCount, pageSize, users, isFollowi
     return ( <div>
             <Paginator currentPage={currentPage}
                         onPageChanged={onPageChanged}
-                        totalUsersCount={totalUsersCount}
+                        totalItemsCount={totalUsersCount}
                         pageSize={pageSize}/>
             {
                 users.map( u => <User key={u.id}
