@@ -24,7 +24,7 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
       <img id='header_img' src='https://demo.select-themes.com/nouveau/wp-content/uploads/2014/04/title_black_and_white_03.jpg' alt='pic'></img>
     </div> */}
     <div className='description_block'>
-      <img src={profilePhoto} />
+      <img src={profilePhoto} alt='profilePhoto'/>
         <ProfileStatus {...props}/>
       </div>
   </div>

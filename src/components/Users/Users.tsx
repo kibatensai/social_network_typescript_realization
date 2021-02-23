@@ -1,6 +1,5 @@
 import React from 'react'
 import style from './Users.module.css'
-import userPhoto from '../../assets/images/usermockpng.png'
 import { UserType } from '../../types/types'
 import { Paginator } from '../common/Paginator/Paginator'
 import { User } from './User'
