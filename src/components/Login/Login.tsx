@@ -9,9 +9,9 @@ import style from '../../components/common/FormsControls/FormsControls.module.cs
 
 const Input = Element('input')
 
-const LoginForm = (props: any) => {
+const LoginForm = ({handleSubmit, error}: any) => {
     return (
-        <form onSubmit={props.handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <div>
                 <Field placeholder={'login'} name={'email'} component={Input}
                     validate={[required]} />
@@ -24,7 +24,7 @@ const LoginForm = (props: any) => {
                 <Field type={'checkbox'} name={'rememberMe'} component={Input} /> remember me
                 </div>
             <div>
-                { props.error && <div className={style.formSummaryError}>{props.error}</div> }
+                { error && <div className={style.formSummaryError}>{error}</div> }
                 <button>Log In</button>
             </div>
         </form>
@@ -33,15 +33,15 @@ const LoginForm = (props: any) => {
 
 const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm)
 
-const Login = (props: any) => {
+const Login = ({login, isAuth}: any) => {
 
     const onSubmit = (formData: any) => {
-        props.login(formData.email, formData.password, formData.rememberMe)
+        login(formData.email, formData.password, formData.rememberMe)
     }
 
     return (
         <>
-            { props.isAuth ?
+            { isAuth ?
                 <Redirect to={'/profile'} />
                 :
                 <div>

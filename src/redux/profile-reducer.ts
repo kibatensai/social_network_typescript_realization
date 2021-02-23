@@ -88,34 +88,33 @@ export const deletePost = (postId: number): DeletePostActionCreatorType => ( { t
 
 // ---------- Thunks: ----------
 
-export const getUserProfile = (userId: number) => {
-    return (dispatch: Dispatch<any>) => {
-        profileAPI.getProfile(userId)
-        .then((response: any) => {
+export const getUserProfile = (userId: number) => 
+    async (dispatch: Dispatch<any>) => {
+        const response =  await profileAPI.getProfile(userId)
             dispatch(setUserProfile(response.data))
-        })
+     
     }
-}
 
-export const getStatus = (userId: number) => {
-    return (dispatch: Dispatch<any>) => {
-        profileAPI.getStatus(userId)
-        .then((response: any) => {
+
+export const getStatus = (userId: number) => 
+    async (dispatch: Dispatch<any>) => {
+        const response = await profileAPI.getStatus(userId)
+       
             dispatch(setStatus(response.data))
-        })
-    }
+       
 }
 
-export const updateStatus = (status: string) => {
-    return (dispatch: Dispatch<any>) => {
-        profileAPI.updateStatus(status)
-        .then((response: any) => {
+
+export const updateStatus = (status: string) => 
+    async (dispatch: Dispatch<any>) => {
+        const response = await profileAPI.updateStatus(status)
+       
             if(response.data.resultCode === 0) {
                 dispatch(setStatus(status))
         }
-        })
+        
     }
-}
+
 
 
 export default profileReducer
