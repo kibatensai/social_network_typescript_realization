@@ -6,6 +6,8 @@ import mockPhoto from '../../../assets/images/usermockpng.png'
 import { ProfileStatus } from './ProfileStatus/ProfileStatus'
 
 type ProfileInfoPropsType = {
+  savePhoto: (photo: any) => void
+  isOwner: boolean
   profile: ProfileType
   status: string
   updateStatus: (status: string) => void
@@ -17,14 +19,18 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
     return <Preloader />
   }
 
-  const profilePhoto = props.profile.photos.large ? props.profile.photos.large : mockPhoto
+  const onMainPhotoSelected = (e: any) => {
+    if (e.target.files.length) {
+      props.savePhoto(e.target.files[0])
+    }
+  }
+
+  const profilePhoto = props.profile.photos.large || mockPhoto
   return (
     <div>
-    {/* <div className='img'>
-      <img id='header_img' src='https://demo.select-themes.com/nouveau/wp-content/uploads/2014/04/title_black_and_white_03.jpg' alt='pic'></img>
-    </div> */}
     <div className='description_block'>
-      <img src={profilePhoto} alt='profilePhoto'/>
+      <img src={profilePhoto} alt='profilePhoto' />
+        { props.isOwner && <input type={'file'} onChange={onMainPhotoSelected}/> }
         <ProfileStatus {...props}/>
       </div>
   </div>

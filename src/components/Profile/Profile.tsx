@@ -4,9 +4,11 @@ import './Profile.css'
 import ProfileInfo from './ProfileInfo/ProfileInfo'
 
 type ProfilePropsType = {
+  isOwner: boolean
   profile: any
   status: string
   updateStatus: (status: string) => void
+  savePhoto: (photo: any) => void
 }
 
 const Profile = (props: ProfilePropsType) => {

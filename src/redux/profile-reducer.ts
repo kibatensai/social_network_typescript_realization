@@ -5,6 +5,7 @@ const ADD_POST = 'ADD-POST'
 const SET_USER_PROFILE = 'SET-USER-PROFILE'
 const SET_STATUS = 'SET-STATUS'
 const DELETE_POST = 'DELETE-POST'
+const SAVE_PHOTO_SUCCESS = 'SAVE-PHOTO-SUCCESS'
 
 export type PostDataType = {
     id: number
@@ -18,7 +19,7 @@ let initialState = {
         { id: 2, postmsg: 'Its my second post', likesCount: 15 },
         { id: 3, postmsg: 'Its my third post', likesCount: 7 },
     ] as Array<PostDataType>,
-    profile: null as ProfileType | null,
+    profile: null as any,
     status: ''
 }
 
@@ -54,6 +55,8 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
                 ...state,
                 postData: state.postData.filter(el => el.id !== action.postId)
             }
+        case SAVE_PHOTO_SUCCESS:
+            return { ...state, profile: {...state.profile, photos: action.photos}}
         default:
             return state 
     }
@@ -80,10 +83,16 @@ type DeletePostActionCreatorType = {
     postId: number
 }
 
+type SavePhotoSuccessActionCreatorType = {
+    type: typeof SAVE_PHOTO_SUCCESS
+    photos: any
+}
+
 export const addPostActionCreator = (newPostText: string): AddPostActionCreatorType => ( {type: ADD_POST, newPostText} )
 export const setUserProfile = (profile: any): SetUserProfileActionCreatorType => ( { type: SET_USER_PROFILE, profile } )
 export const setStatus = (status: string): SetStatusActionCreatorType => ( { type: SET_STATUS, status } )
 export const deletePost = (postId: number): DeletePostActionCreatorType => ( { type: DELETE_POST, postId } )
+export const savePhotoSuccess = (photos: any): SavePhotoSuccessActionCreatorType => ( { type: SAVE_PHOTO_SUCCESS, photos } )
 
 
 // ---------- Thunks: ----------
@@ -113,7 +122,17 @@ export const updateStatus = (status: string) =>
                 dispatch(setStatus(status))
         }
         
-    }
+}
+
+export const savePhoto = (file: any) => 
+    async (dispatch: Dispatch<any>) => {
+        const response = await profileAPI.savePhoto(file)
+       
+            if(response.data.resultCode === 0) {
+                dispatch(savePhotoSuccess(response.data.data.photos))
+        }
+        
+}
 
 
 
