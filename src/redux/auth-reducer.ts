@@ -68,13 +68,14 @@ export const getAuthUserData = () => async (dispatch: Dispatch<any>) => {
 }
 
 
-export const login = (email: string, password: string, rememberMe: boolean): ThunkAction<void, AppStateType, unknown, any> => async (dispatch) => {
-        let response = await authAPI.login(email, password, rememberMe)
+export const login = (email: string, password: string, rememberMe: boolean, captcha: any): ThunkAction<void, AppStateType, unknown, any> => async (dispatch) => {
+        let response = await authAPI.login(email, password, rememberMe, captcha)
         if(response.data.resultCode === 0) {
             dispatch(getAuthUserData())
-        } else if (response.data.resultCode === 10){
-            dispatch(getCaptchaUrl())
         } else {
+            if (response.data.resultCode === 10){
+                dispatch(getCaptchaUrl())
+            }
             const message = response.data.message.length > 0 ? response.data.message[0] : 'Some error occured'
             dispatch(stopSubmit('login', {_error: message}))
         }
