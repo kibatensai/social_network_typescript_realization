@@ -127,14 +127,6 @@ class App extends Component {
             Social Network ©2021 Created by David Pehshvelashvili
           </Footer>
         </Layout>
-
-        // <div className="app_wrapper">
-        //   <HeaderContainer />
-        //   <Navigation />
-        //   <div className="app_wrapper_content">
-        //
-        //   </div>
-        // </div>
       );
     }
   }
