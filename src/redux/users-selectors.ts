@@ -1,4 +1,6 @@
-export const getUsersFromState = (state: any) => {
+import { UserType } from "../types/types"
+
+export const getUsersFromState = (state: any): Array<UserType> => {
     return state.usersPage.users
 }
 
@@ -20,6 +22,10 @@ export const getIsFetchingFromState = (state: any) => {
 
 export const getIsFollowInProgressFromState = (state: any) => {
     return state.usersPage.isFollowingInProgress
+}
+
+export const getUsersFilter = (state: any) => {
+    return state.usersPage.filter
 }
 
 

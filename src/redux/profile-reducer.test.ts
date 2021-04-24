@@ -7,7 +7,7 @@ let state = {
         { id: 2, postmsg: 'Its my second post', likesCount: 15 },
         { id: 3, postmsg: 'Its my third post', likesCount: 7 },
     ] as Array<PostDataType>,
-    profile: null as ProfileType | null,
+    profile: null as any | null,
     status: ''
 }
 
