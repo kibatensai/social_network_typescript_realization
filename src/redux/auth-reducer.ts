@@ -76,7 +76,7 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
             if (response.data.resultCode === 10){
                 dispatch(getCaptchaUrl())
             }
-            const message = response.data.message.length > 0 ? response.data.message[0] : 'Some error occured'
+            const message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error occured'
             dispatch(stopSubmit('login', {_error: message}))
         }
 

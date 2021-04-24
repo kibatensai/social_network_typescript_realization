@@ -53,7 +53,7 @@ type LoginFormOwnProps = {
 export const Login = () => {
 
     const dispatch = useDispatch()
-    const captchaUrl = useSelector<AppStateType, null | string>(state => state.auth.captchaUrl)
+    const captchaUrl = useSelector<AppStateType, any>(state => state.auth.captchaUrl)
     const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
     const onSubmit = (formData: any) => {
         dispatch(login(formData.email, formData.password, formData.rememberMe,  formData.captcha))
