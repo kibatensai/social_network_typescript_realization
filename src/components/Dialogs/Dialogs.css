@@ -1,16 +1,18 @@
 .dialogs {
     display: grid;
     grid-template-columns: 1fr 10fr;
-    
+
 }
 
 .dialogs-items {
     padding: 10px;
+    color: rgb(0, 0, 0);
 }
+
 
 .dialog a {
     text-decoration: none;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .dialog a:hover {
@@ -25,6 +27,3 @@
     padding: 10px;
 }
 
-.message {
-
-}

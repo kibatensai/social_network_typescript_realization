@@ -1,10 +1,10 @@
 .dialog a {
     text-decoration: none;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .dialog a:hover {
-    color: red;
+    color: rgb(60, 124, 184);
 }
 
 .dialog a.active {
