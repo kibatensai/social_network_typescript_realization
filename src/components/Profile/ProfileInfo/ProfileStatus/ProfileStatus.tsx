@@ -33,7 +33,7 @@ export const ProfileStatus = ({ status, updateStatus }: ProfileStatusType) => {
                 !editMode
                     ? <div>
                         <span onDoubleClick={activateEditMode}>
-                            {status || 'Im an empty status'}
+                            <b>Status</b>: {status || 'Im an empty status'}
                         </span>
                     </div>
                     : <div>

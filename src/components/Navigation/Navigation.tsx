@@ -23,6 +23,9 @@ const Navigation = () => {
       <div className='nav_item'>
         <NavLink to='/settings'>Settings</NavLink>
       </div>
+      <div className='nav_item'>
+        <NavLink to='/chat'>Chat</NavLink>
+      </div>
     </nav>
   )
 }

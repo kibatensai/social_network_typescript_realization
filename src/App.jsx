@@ -5,9 +5,9 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import { HashRouter, BrowserRouter, Route, withRouter } from "react-router-dom";
-import UsersContainer from "./components/Users/UsersContainer";
+import { UsersPage } from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/Login";
+import { Login } from "./components/Login/Login";
 import { initializeApp } from "./redux/app-reducer";
 import { compose } from "redux";
 import { connect, Provider } from "react-redux";
@@ -15,10 +15,21 @@ import { Preloader } from "./components/common/Preloader/Preloader";
 import store from './redux/redux-store'
 const DialogsContainer = lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = lazy(() => import('./components/Profile/ProfileContainer'))
+const ChatPage = lazy(() => import('./pages/Chat/ChatPage'))
 
 class App extends Component {
+
+  catchAllUnhandledErrors = (promiseRejectionEvent) => {
+    console.log('REST query error')
+  }
+
   componentDidMount() {
     this.props.initializeApp();
+    window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors)
   }
 
   render() {
@@ -41,7 +52,7 @@ class App extends Component {
               </Suspense>
             </Route>
             <Route path="/users">
-              <UsersContainer />
+              <UsersPage />
             </Route>
             <Route path="/login">
               <Login />
@@ -49,9 +60,14 @@ class App extends Component {
             <Route path="/news" component={News} />
             <Route path="/music" component={Music} />
             <Route path="/settings" component={Settings} />
+            <Route path='/chat'>
+              <Suspense fallback={<Preloader />}>
+                <ChatPage />
+              </Suspense>
+            </Route>
           </div>
         </div>
-      </BrowserRouter>; 
+      </BrowserRouter>;
     }
   }
 }

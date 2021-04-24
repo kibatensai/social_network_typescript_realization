@@ -9,6 +9,7 @@ type ProfilePropsType = {
   status: string
   updateStatus: (status: string) => void
   savePhoto: (photo: any) => void
+  saveProfile: (formData: any) => void
 }
 
 const Profile = (props: ProfilePropsType) => {

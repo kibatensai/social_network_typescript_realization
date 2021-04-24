@@ -21,6 +21,9 @@ let reducers = combineReducers({
 type reducersType = typeof reducers
 export type AppStateType = ReturnType<reducersType>
 
+type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
+export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any }> = ReturnType<PropertiesTypes<T>>
+
 declare global {
     interface Window {
       __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
