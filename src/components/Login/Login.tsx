@@ -66,6 +66,9 @@ export const Login = () => {
                 :
                 <div>
                     <h1>LOGIN</h1>
+                    <span>You can use common test account credentials:</span>
+                    <p>Email: free@samuraijs.com</p>
+                    <p>Password: free</p>
                     <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl}/>
                 </div>
             }
