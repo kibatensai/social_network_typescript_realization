@@ -1,4 +1,7 @@
-import { FC, useEffect, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { AppStateType } from './../../redux/redux-store'
 
 const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
 
@@ -10,9 +13,17 @@ export type ChatMessageType = {
 }
 
 const ChatPage: FC = () => {
+
+    const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
+
     return (
         <>
-            <Chat />
+            {isAuth
+                ?
+                <Chat />
+                :
+                <Redirect to={'/login'} />
+            }
         </>
     )
 }
