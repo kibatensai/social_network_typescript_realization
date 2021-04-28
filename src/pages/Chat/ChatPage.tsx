@@ -1,21 +1,15 @@
 import React, { FC, useEffect, useState } from "react"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { ChatMessageType } from "../../api/chat-api";
+import { sendMessage, startMessagesListening, stopMessagesListening } from "../../redux/chat-reducer";
 import { AppStateType } from './../../redux/redux-store'
 
-const ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx')
 
-export type ChatMessageType = {
-    message: string,
-    photo: string,
-    userId: number,
-    userName: string
-}
+
 
 const ChatPage: FC = () => {
-
     const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
-
     return (
         <>
             {isAuth
@@ -29,68 +23,68 @@ const ChatPage: FC = () => {
 }
 
 const Chat: FC = () => {
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(startMessagesListening())
+        return () => {
+            dispatch(stopMessagesListening())
+        }
+    }, [])
+
+
     return (
         <>
             <Messages />
-            <AddMessageForm />
+            <AddMessageForm  />
         </>
     )
 }
 
-const Messages: FC = () => {
-
-    const [messages, setMessages] =useState<ChatMessageType[]>([])
-
-    useEffect(() => {
-        ws.addEventListener('message', (e: MessageEvent) => {
-            let newMessages = JSON.parse(e.data)
-            setMessages((prevMessages) => [...prevMessages, ...newMessages])
-        })
-        return () => {
-            ws.removeEventListener('message', () => {})
-        }
-    }, [])
+const Messages: FC<{  }> = ({  }) => {
+    const messages = useSelector((state: AppStateType) => state.chat.messages)
 
     const mappedMessages = messages.map((m, i) => <Message message={m} key={i} />)
 
     return (
-        <div style={{height: '400px', overflowY: 'auto'}}>
+        <div style={{ height: '400px', overflowY: 'auto' }}>
             {mappedMessages}
         </div>
     )
 }
 
 
-const Message: FC<{message: ChatMessageType}> = ({message}) => {
+const Message: FC<{ message: ChatMessageType }> = ({ message }) => {
     return (
         <div>
-            <img src={message.photo} alt='' style={{width: '30px'}}/> <b>{message.userName}</b>
-            <br/>
+            <img src={message.photo} alt='' style={{ width: '30px' }} /> <b>{message.userName}</b>
+            <br />
             {message.message}
-           <hr />
+            <hr />
         </div>
     )
 }
 
 
-const AddMessageForm: FC = () => {
-
+const AddMessageForm: FC<{ }> = () => {
     const [message, setMessage] = useState('')
+    const [readyStatus, setReadyStatus] = useState<'pending' | 'ready'>('pending')
+    const dispatch = useDispatch()
 
-    const sendMessage = () => {
-        if(!message) return
-        ws.send(message)
+
+    const sendMessageHandler = () => {
+        if (!message) return
+        dispatch(sendMessage(message))
         setMessage('')
     }
-
     return (
         <>
-        <div>
-            <textarea value={message} onChange={(e) => setMessage(e.currentTarget.value)}></textarea>
-        </div>
-        <div>
-            <button onClick={sendMessage}>send</button>
-        </div>
+            <div>
+                <textarea value={message} onChange={(e) => setMessage(e.currentTarget.value)}></textarea>
+            </div>
+            <div>
+                <button disabled={false} onClick={sendMessageHandler}>send</button>
+            </div>
         </>
     )
 }

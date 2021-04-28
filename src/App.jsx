@@ -67,7 +67,6 @@ class App extends Component {
               <Sider className="site-layout-background" width={250}>
                 <Menu
                   mode="inline"
-                  defaultSelectedKeys={["1"]}
                   defaultOpenKeys={["sub1"]}
                   style={{ height: "100%" }}
                 >
